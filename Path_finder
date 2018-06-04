@@ -1,0 +1,8 @@
+initial_point = [5 4];
+final_point = [12,12];
+feasible_domain = [];
+for i = 0:100
+    for j = 0:100
+        feasible_domain = vertcat(feasible_domain,[i j]);
+    end
+end
