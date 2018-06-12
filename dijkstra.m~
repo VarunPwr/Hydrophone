@@ -139,7 +139,7 @@
 %
 % See also: gplot, gplotd, gplotdc, distmat, ve2axy, axy2ve
 %
-function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,showWaitbar,domain)
+function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID)
     
     narginchk(2,5);
     
@@ -158,11 +158,11 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,showWaitbar,domain)
         FID = (1:n);
     end
     M = length(FID);
-    if (nargin < 5)
-        showWaitbar = (n > 1000 && max(L,M) > 1);
-    end
-    
-    
+%     if (nargin < 5)
+%         showWaitbar = (n > 1000 && max(L,M) > 1);
+%     end
+    %not required above
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Error check inputs
     if (max(SID) > n || min(SID) < 1)
         eval(['help ' mfilename]);
@@ -174,7 +174,7 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,showWaitbar,domain)
     end
     [E,cost] = process_inputs(AorV,xyCorE);
     
-    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Reverse the algorithm if it will be more efficient
     isReverse = false;
     if L > M
@@ -192,12 +192,6 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,showWaitbar,domain)
     M = length(FID);
     costs = zeros(L,M);
     paths = num2cell(NaN(L,M));
-    
-    
-    % Create a waitbar if desired
-    if showWaitbar
-        hWait = waitbar(0,'Calculating Minimum Paths ... ');
-    end
     
     
     % Find the minimum costs and paths using Dijkstra's Algorithm
@@ -229,17 +223,21 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,showWaitbar,domain)
                     c = cost(I,J);
                     empty = isnan(jTable(J));
                     %%%%I have made a change here
-                     if empty || (jTable(J) > (jTable(I) + c)) && is_feasible_point(domain(J,1),domain(J,2))
-
-                        iTable(J) = jTable(I) + c;
-                        if isReverse
-                            path{J} = [J path{I}];
+                    if is_feasible_point(AorV(J,1),AorV(J,2))
+                         if empty || (jTable(J) > (jTable(I) + c)) 
+                             iTable(J) = jTable(I) + c;
+                            if isReverse
+                                path{J} = [J path{I}];
+                            else
+                                path{J} = [path{I} J];
+                            end
                         else
-                            path{J} = [path{I} J];
-                        end
+                            iTable(J) = jTable(J);
+                         end
                     else
-                        iTable(J) = jTable(J);
+                        iTable(J) = 1000000;
                     end
+                    
                 end
             end
             
@@ -259,14 +257,10 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,showWaitbar,domain)
         % Store costs and paths
         costs(k,:) = minCost(FID);
         paths(k,:) = path(FID);
-        if showWaitbar && ~mod(k,ceil(L/100))
-            waitbar(k/L,hWait);
+        if  ~mod(k,ceil(L/100))
+    %        waitbar(k/L,hWait);
         end
     end
-    if showWaitbar
-        delete(hWait);
-    end
-    
     
     % Reformat outputs if algorithm was reversed
     if isReverse

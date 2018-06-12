@@ -139,7 +139,7 @@
 %
 % See also: gplot, gplotd, gplotdc, distmat, ve2axy, axy2ve
 %
-function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,domain)
+function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID)
     
     narginchk(2,5);
     
@@ -158,11 +158,11 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,domain)
         FID = (1:n);
     end
     M = length(FID);
-    if (nargin < 5)
-        showWaitbar = (n > 1000 && max(L,M) > 1);
-    end
-    
-    
+%     if (nargin < 5)
+%         showWaitbar = (n > 1000 && max(L,M) > 1);
+%     end
+    %not required above
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Error check inputs
     if (max(SID) > n || min(SID) < 1)
         eval(['help ' mfilename]);
@@ -174,7 +174,7 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,domain)
     end
     [E,cost] = process_inputs(AorV,xyCorE);
     
-    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Reverse the algorithm if it will be more efficient
     isReverse = false;
     if L > M
@@ -185,7 +185,7 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,domain)
         FID = tmp;
         isReverse = true;
     end
-    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % Initialize output variables
     L = length(SID);
@@ -220,10 +220,15 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID,domain)
             for kk = 1:length(nodeIndex)
                 J = E(nodeIndex(kk),2);
                 if ~isSettled(J)
+                    %%%%%below is my change
+                    if is_feasible_edge([AorV(J,1);AorV(J,2)],[AorV(I,1);AorV(I,2)]) == 0
+                        cost(I,J) = 10000000;
+                    end
+                    %%%%
                     c = cost(I,J);
                     empty = isnan(jTable(J));
                     %%%%I have made a change here
-                    if is_feasible_point(domain(J,1),domain(J,2))
+                    if is_feasible_point(AorV(J,1),AorV(J,2)) 
                          if empty || (jTable(J) > (jTable(I) + c)) 
                              iTable(J) = jTable(I) + c;
                             if isReverse

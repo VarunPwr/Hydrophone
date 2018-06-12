@@ -12,9 +12,9 @@ global neo_domain
 neo_domain = [];
 a = 0;
 b = 100;
-x_domain = (b-a).*rand(10000,1) + a;
-y_domain = (b-a).*rand(10000,1) + a;
-count = zeros(10000,1);
+x_domain = (b-a).*rand(1000,1) + a;
+y_domain = (b-a).*rand(1000,1) + a;
+count = zeros(1000,1);
 domain = [x_domain y_domain count];
 figure
 plot(domain(:,1),domain(:,2),'.')
@@ -24,7 +24,6 @@ global feasible_domain;
 feasible_domain = [];
 global infeasible_domain;
 infeasible_domain = [];
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i =1 : 2000
     %check domain
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47,12 +46,8 @@ for i =1 : 2000
     dist_prev =10000;
 %     a = [x y];
     pos = [];
-    while x ~= x_2 && y ~= y_2 
+    while x ~= x_2 && y ~= y_2
     % for i =1: 3   
-        if is_feasible_point(x_2, y_2) == 0
-            infeasible_domain = vertcat(infeasible_domain, [x_2 y_2]);
-            break;
-        end
         if is_feasible_point(x, y) == 1
             feasible_domain = vertcat(feasible_domain, [x y ]) ;%cell typpe for svm
 %             label = vertcat(label, cell(1));%previously a feasible domain
@@ -82,7 +77,7 @@ for i =1 : 2000
             count = 1;
             sz = size(dist);
             while sz(1) ~= count
-                if is_feasible_point(domain(count,1),domain(count,2)) == 0 && dist_i(count) <= 0.3
+                if is_feasible_point(domain(count,1),domain(count,2)) == 0 && dist_i(count) <= 5
                     infeasible_domain = vertcat(infeasible_domain, [domain(count,1) domain(count,2)]);
                     %previously infeasible domain
 %                     label = vertcat(label, cell(-1));
@@ -96,7 +91,7 @@ for i =1 : 2000
                 sz = size(dist);
             end
             [val pos] = min(dist);
-            while dist_i(pos) >= 0.3 && domain(pos,1) == x && domain(pos,2) == y || domain(pos,3) == 1
+            while dist_i(pos) >= 5 && domain(pos,1) == x && domain(pos,2) == y || domain(pos,3) == 1
 %                 if is_feasible_point(domain(pos,1), domain(pos,2)) == 0
 % %                     %keep this number as large as possible
 %                      infeasible_domain = vertcat(infeasible_domain, [domain(pos,1) domain(pos,2)]);
@@ -109,16 +104,15 @@ for i =1 : 2000
 %                 end
                 dist(pos) = 10000000;
                 [val pos] = min(dist);
-              end
-            while is_feasible_edge([x;y],[domain(pos,1);domain(pos,2)]) == 0
+            end
+            while is_feasible_edge()
                dist(pos) = 10000000;
                [val pos] = min(dist);
             end
-            
+            domain(pos,3) = 1;  
             if dist_prev > dist_f(pos)
                 x = domain(pos,1);
                 y = domain(pos,2);
-                domain(pos,3) = 1;  
                 dist_prev = dist_f(pos)
             else
                 x = x_2;
