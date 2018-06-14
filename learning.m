@@ -97,11 +97,13 @@ hold on
     x_2 = (b-a).*rand(1,1) + a;
     y_2 = (b-a).*rand(1,1) + a;
     plot(feasible_domain(:,1),feasible_domain(:,2),'.g')
-    hold on
-    plot(infeasible_domain(:,1),infeasible_domain(:,2),'.r')
+    if isnan(infeasible_domain) == 0
+        hold on
+        plot(infeasible_domain(:,1),infeasible_domain(:,2),'.r')
+    end
     pause(0.01)
     hold on
- end
+end
 hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 dist = [];
