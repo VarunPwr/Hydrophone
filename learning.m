@@ -9,9 +9,9 @@ global domain ;
 domain = [];
 a = 0;
 b = 100;
-x_domain = (b-a).*rand(1000,1) + a;
-y_domain = (b-a).*rand(1000,1) + a;
-count = zeros(1000,1);
+x_domain = (b-a).*rand(500,1) + a;
+y_domain = (b-a).*rand(500,1) + a;
+count = zeros(500,1);
 domain = [x_domain y_domain count];
 x_domain = [];
 y_domain = [];
@@ -29,8 +29,12 @@ x = 0;%%defined first point as 0,0  which is feasible and last point as random x
 y = 0;
 x_2 = (b-a).*rand(1,1) + a;
 y_2 = (b-a).*rand(1,1) + a;
+figure
+t = test_plot();
+plot(t(:,1),t(:,2),'.y')
+hold on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- for i =1 : 4000
+ for i =1 : 400
 % while size(domain) ~= size(feasible_domain) - count 
     dist_prev =10000;
     pos = [];
@@ -92,7 +96,13 @@ y_2 = (b-a).*rand(1,1) + a;
     domain(:,3) = 0;
     x_2 = (b-a).*rand(1,1) + a;
     y_2 = (b-a).*rand(1,1) + a;
-end
+    plot(feasible_domain(:,1),feasible_domain(:,2),'.g')
+    hold on
+    plot(infeasible_domain(:,1),infeasible_domain(:,2),'.r')
+    pause(0.01)
+    hold on
+ end
+hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 dist = [];
 dist_i = [];
@@ -109,13 +119,6 @@ dist_prev = [];
 count = [];
 sz = [];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-figure
-scatter(infeasible_domain(:,1), infeasible_domain(:,2),1,'r')
-legend('Infeasible')
-hold on  
-scatter(feasible_domain(:,1), feasible_domain(:,2),1,'g')
-title('Feasible and infeasible nodes')
-legend('Feasible');
 domain = [];
 x = [];
 y = [];

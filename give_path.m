@@ -29,9 +29,12 @@ if is_feasible_point(initial_assign(1),initial_assign(2)) && is_feasible_point(f
     x_path = V(t',1);
     y_path = V(t',2);
     figure
-    plot(x_path,y_path)
+    t = test_plot();
+    plot(t(:,1),t(:,2),'.y')
     hold on
-    plot(feasible_domain(:,1),feasible_domain(:,2),'.y')
+    plot(x_path,y_path,'-r')
+    hold on
+    plot(feasible_domain(:,1),feasible_domain(:,2),'.g')
     hold on 
     plot(infeasible_domain(:,1),infeasible_domain(:,2),'.r')
     hold off;

@@ -1,7 +1,8 @@
-t = 100 * rand(100000,2);
-for i = 1 : 100000
-    if is_feasible_point(t(i,1),t(i,2)) == 0
+function f = test_plot()
+t = 100 * rand(1000000,2);
+for i = 1 : 1000000
+    if is_feasible_point(t(i,1),t(i,2)) == 1
         t(i,:) = [0,0];
     end
 end
-plot(t(:,1),t(:,2),'.');
+f = t;
