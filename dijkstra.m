@@ -221,7 +221,7 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID)
                 J = E(nodeIndex(kk),2);
                 if ~isSettled(J)
                     %%%%%below is my change
-                    if is_feasible_edge([AorV(J,1);AorV(J,2)],[AorV(I,1);AorV(I,2)]) == 0
+                    if is_feasible_edge([AorV(J,1);AorV(J,2)],[AorV(I,1);AorV(I,2)]) * [0;0;1] == 0
                         cost(I,J) = 10000000;
                     end
                     %%%%
