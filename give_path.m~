@@ -1,10 +1,17 @@
+a = 0;
+b = 100;
+%initial_assign = (b-a).*rand(2,1) + a;
+%final_assign = (b-a).*rand(2,1) + a;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 answer = inputdlg('Enter space-separated intial point:',...
              'Sample', [1 50])
-x_initial = str2num(answer{1});
+x_initial = str2num(answer{1})
 
 answer = inputdlg('Enter space-separated final point:',...
              'Sample', [1 50])
-x_final = str2num(answer{1});
+x_final = str2num(answer{1})
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 initial_assign = [x_initial(1);x_initial(2)];
 final_assign = [x_final(1);x_final(2)];
@@ -15,17 +22,7 @@ if is_feasible_point(initial_assign(1),initial_assign(2)) && is_feasible_point(f
     I = delaunay(V(:,1),V(:,2));
     J = I(:,[2 3 1]); E = [I(:) J(:)];
     [costs,paths] = dijkstra(V,E,[sz],[sz-1]);
-    %%%%%%%%%%%%%%%%%%
-    if isnan(paths{1,1}) == 0
-        t = paths{1,1};
-    elseif isnan(paths{2,1}) == 0
-        t = paths{2,1};
-    elseif isnan(paths{1,2}) == 0
-        t = paths{1,2};
-    elseif isnan(paths{2,2}) == 0
-        t = paths{2,2};    
-    end
-    %%%%%%%%%%%%%%%%%%
+    t = paths{1,1}   ;
     x_path = V(t',1);
     y_path = V(t',2);
     figure
@@ -34,7 +31,8 @@ if is_feasible_point(initial_assign(1),initial_assign(2)) && is_feasible_point(f
     plot(feasible_domain(:,1),feasible_domain(:,2),'.y')
     hold on 
     plot(infeasible_domain(:,1),infeasible_domain(:,2),'.r')
-    hold off;
+    hold off
+title('Travelling from' (15,10) to (99,85));
 else
     disp('invalid input')
 end
