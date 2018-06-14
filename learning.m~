@@ -1,25 +1,47 @@
 tic;
 clear;close;
-
-global label
-label = [];
+prompt = {'Path dimensions'};
+dlg_title = 'Input ';
+num_lines= 1;
+def = {'20'};
+answer  = inputdlg(prompt,dlg_title,num_lines,def);
+dim = cell2mat(answer);
+dim = str2num(dim);
+answer = [];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 disp('hi');
 global domain ;
 domain = [];
 a = 0;
 b = 100;
-x_domain = (b-a).*rand(100,1) + a;
-y_domain = (b-a).*rand(100,1) + a;
-count = zeros(100,1);
-domain = [x_domain y_domain count];
-x_domain = [];
-y_domain = [];
-count = [];
-figure
-plot(domain(:,1),domain(:,2),'.')
-title('Nodes generated before search');
-
+if dim == 2
+    x_domain = (b-a).*rand(500,1) + a;
+    y_domain = (b-a).*rand(500,1) + a;
+    count = zeros(500,1);
+    domain = [x_domain y_domain count];
+    x_domain = [];
+    y_domain = [];
+    count = [];
+    figure
+    plot(domain(:,1),domain(:,2),'.')
+    title('Nodes generated before search');
+elseif dim == 3
+    disp('hi')
+    x_domain = (b-a).*rand(1000,1) + a;
+    y_domain = (b-a).*rand(1000,1) + a;
+    z_domain = (b-a).*rand(1000,1) + a;
+    count = zeros(1000,1);
+    domain = [x_domain y_domain z_domain count];
+    x_domain = [];
+    y_domain = [];
+    z_domain = [];
+    count = [];
+    figure
+    plot(domain(:,1),domain(:,2),domain(:,3),'.')
+    title('Nodes generated before search');
+else
+    disp('Invalid argments')
+end
 global feasible_domain;
 feasible_domain = [];
 global infeasible_domain;
@@ -27,17 +49,20 @@ infeasible_domain = [];
 %%%%
 x = 0;%%defined first point as 0,0  which is feasible and last point as random x_2
 y = 0;
+z = 0;
 x_2 = (b-a).*rand(1,1) + a;
 y_2 = (b-a).*rand(1,1) + a;
-% figure
-% count = 2;
+z_2 = (b-a).*rand(1,1) + a;
+
+figure
+t = test_plot();
+plot(t(:,1),t(:,2),'.y')
+hold on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- for i =1 : 400
+ for i =1 : 40
 % while size(domain) ~= size(feasible_domain) - count 
     dist_prev =10000;
-%     a = [x y];
     pos = [];
-    %obviously the previously feasible point is last visited point
     while x ~= x_2 && y ~= y_2 
         if is_feasible_point(x,y) == 1 %a dynamic step for moving from feasible previously to x,y
             feasible_domain = vertcat(feasible_domain, [x y ]) ;%cell typpe for svm
@@ -96,7 +121,15 @@ y_2 = (b-a).*rand(1,1) + a;
     domain(:,3) = 0;
     x_2 = (b-a).*rand(1,1) + a;
     y_2 = (b-a).*rand(1,1) + a;
+    plot(feasible_domain(:,1),feasible_domain(:,2),'.g')
+    if isnan(infeasible_domain) == 0
+        hold on
+        plot(infeasible_domain(:,1),infeasible_domain(:,2),'.r')
+    end
+    pause(0.01)
+    hold on
 end
+hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 dist = [];
 dist_i = [];
@@ -108,56 +141,11 @@ x = [];
 y = [];
 x_2 = [];
 y_2 = [];
-
 val = [];
 dist_prev = [];
 count = [];
 sz = [];
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   x= infeasible_domain(:,1);%following is a plot of the domian 
-   %g - feasible r - infeasible y - unexplored
-   y= infeasible_domain(:,2);
-   x_f= feasible_domain(:,1);
-   y_f= feasible_domain(:,2);
-   t = 1:0.5:360;
-   x_boundary = sin(t).*sqrt(100) + 50;
-   y_boundary = cos(t).*sqrt(100) + 50;
-   figure
-t = [];
-  % scatter(domain(:,1), domain(:,2),1,'y')
-  % hold on
-   scatter(x, y,1,'r')
-legend('Infeasible')
-   hold on
-
-   
-scatter(x_f, y_f,1,'g')
-
-title('Feasible and infeasible nodes')
-legend('Feasible');
- %  hold on
-  % plot(x_boundary, y_boundary);
-  
-%    
-%      figure
-%      plot(x_domain,y_domain,'.');
-%      figure
-% %      plot(x,y);
-% unexplored = 1;
-% for i =1 : size(domain)
-%     if is_feasible_point(domain(unexplored,1),domain(unexplored,2)) == 1
-%         unexplored = unexplored + 1;
-%     end
-% end
-% sizea = size(feasible_domain) + size(infeasible_domain);
-% label = cell(sizea(1),1);
-% for i =1 : size(feasible_domain) + size(infeasible_domain)
-%     if i > size(feasible_domain)
-%          label{i,1} = 'infeasible';
-%     else
-%          label{i,1} = 'feasible';
-%     end
-% end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 domain = [];
 x = [];
 y = [];
