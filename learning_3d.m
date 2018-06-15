@@ -92,6 +92,7 @@ figure
             x = t(1);
             y = t(2);
             z = t(3);
+            t = [];
             domain(pos,:) = [];
             break;
         end   
@@ -126,10 +127,7 @@ val = [];
 dist_prev = [];
 count = [];
 sz = [];
+pos = [];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 domain = [];
-% x_f = [];
-% y_f = [];
-% x_boundary = [];
-% y_boundary = [];
 toc

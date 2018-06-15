@@ -1,4 +1,3 @@
-
 % DIJKSTRA Calculate Minimum Costs and Paths using Dijkstra's Algorithm
 %
 % Filename: dijkstra.m
@@ -189,7 +188,7 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % Initialize output variables
-    L = length(SID);
+    L = length(SID);%this step is useles
     M = length(FID);
     costs = zeros(L,M);
     paths = num2cell(NaN(L,M));
@@ -222,10 +221,12 @@ function [costs,paths] = dijkstra(AorV,xyCorE,SID,FID)
                 J = E(nodeIndex(kk),2);
                 if ~isSettled(J)
                     %%%%%below is my change
-                    chker = is_feasible_edge(AorV(J,:) ,AorV(I,:));
-                    if  chker(end) == 0
+                    var = [];
+                    var = is_feasible_edge(AorV(J,:) ,AorV(I,:));
+                    if var(end) == 0
                         cost(I,J) = 10000000;
                     end
+                    var = [];
                     %%%%
                     c = cost(I,J);
                     empty = isnan(jTable(J));
@@ -336,3 +337,4 @@ function D = ve2d(V,E)
     VJ = V(E(:,2),:);
     D = sqrt(sum((VI - VJ).^2,2));
 end
+

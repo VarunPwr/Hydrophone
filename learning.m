@@ -6,9 +6,9 @@ global domain ;
 domain = [];
 a = 0;
 b = 100;
-x_domain = (b-a).*rand(500,1) + a;
-y_domain = (b-a).*rand(500,1) + a;
-count = zeros(500,1);
+x_domain = (b-a).*rand(300,1) + a;
+y_domain = (b-a).*rand(300,1) + a;
+count = zeros(300,1);
 domain = [x_domain y_domain count];
 x_domain = [];
 y_domain = [];
@@ -30,7 +30,7 @@ t = test_plot();
 plot(t(:,1),t(:,2),'.y')
 hold on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- for i =1 : 40
+ for i =1 : 100
 % while size(domain) ~= size(feasible_domain) - count 
     dist_prev =10000;
     pos = [];
@@ -85,6 +85,7 @@ hold on
             t = is_feasible_edge(feasible_domain(end,:),[x y]);
             x = t(1);
             y = t(2);
+            t = [];
             domain(pos,:) = [];
             break;
         end   
@@ -99,8 +100,8 @@ hold on
     end
     pause(0.01)
     hold on
-end
-hold off;
+ end
+ hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 dist = [];
 dist_i = [];
@@ -116,12 +117,22 @@ val = [];
 dist_prev = [];
 count = [];
 sz = [];
+pos = [];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 domain = [];
-x = [];
-y = [];
-x_f = [];
-y_f = [];
-x_boundary = [];
-y_boundary = [];
+% domain = vertcat(feasible_domain,infeasible_domain);
+% tri = delaunay(domain(:,1),domain(:,2));
+% i = 1;
+% while i ~= length(tri)
+%     vert1 = tri(i,1);
+%     vert2 = tri(i,2);
+%     vert3 = tri(i,3);
+%     con1 = is_feasible_edge(domain(vert1,1:2),domain(vert2,1:2)) ;
+%     con2 = is_feasible_edge(domain(vert2,1:2),domain(vert3,1:2)) ;
+%     con3 = is_feasible_edge(domain(vert3,1:2),domain(vert1,1:2)) ;
+%     i = 1 + i;
+% end
+% trimesh(tri,domain(:,1),domain(:,2));
+% hold off;
+
 toc
