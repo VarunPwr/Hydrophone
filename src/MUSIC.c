@@ -1,30 +1,30 @@
     //insertion_sort.c file
-    #include "MUSIC.h"
+    #include "hydrophone/MUSIC.h"
     #include <stdio.h>
     #include <stdlib.h>
 	//#include <iostream>
 	//#include <Eigen/Dense>
 	//using Eigen::MatrixXd;
-    
+
     int zero_array(float*);
-    
+
     float* give_heading(float* Arr, int nosig){
         static float** U ;
         static int count = 0;
         // a big change should come here as I don't know how many samples I am going to get in a duty cycle
         if (zero_array(Arr) == 1){
             printf("I am in MUSIC \n ");
-            
+
             U[count]  = (float*) malloc(nosig * sizeof(float));
     	    for(int i =0; i < nosig; i++){
                 U[count][i] = Arr[i];
-            } 
+            }
             for(int i =0; i < nosig; i++){
                 printf("%f \t", U[count][i]);
-            } 
-            count = count + 1;            
+            }
+            count = count + 1;
         }
-        printf("\n I am out of MUSIC \n ");    
+        printf("\n I am out of MUSIC \n ");
         return Arr;
     }
 
@@ -34,7 +34,7 @@
     //both indexes start from 1
     float** EofArray(float** Arr, int x, int y){
         //float EoArray[4][4];
-        float **EoArray = (float **)malloc(4 * sizeof(float *)); 
+        float **EoArray = (float **)malloc(4 * sizeof(float *));
     // for each row allocate Cols ints
     for (int i = 0; i < 4; i++) {
         EoArray[i] = (int *)malloc(4 * sizeof(int));

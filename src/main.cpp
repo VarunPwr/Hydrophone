@@ -12,7 +12,7 @@
 #include <vector>
 #include <array>
 extern "C" {
-  #include "MUSIC.h"
+  #include "hydrophone/MUSIC.h"
 }
 //#include "MUSIC.h"
 float** Arr = (float**) malloc( 1000 * sizeof(float*));
@@ -83,7 +83,7 @@ void arrayCallback(const std_msgs::Float64MultiArray::ConstPtr& array)
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "main");
-  
+
   ros::NodeHandle n;
   printf("first time in subscriber\n");
 
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
     printf("%f, ", Arr[j]);
   }
 
- 
+
   printf("\n");*/
 // printf("%f \n ", Arr[0]);
   return 0;
