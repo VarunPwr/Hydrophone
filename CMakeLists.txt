@@ -36,11 +36,13 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+# adding C++ executable
 add_executable(hydropub
   src/hydropub.cpp
 )
 target_link_libraries(hydropub ${catkin_LIBRARIES})
 
+# adding C++ executable
 add_executable(main
   src/main.cpp
   src/MUSIC.c
