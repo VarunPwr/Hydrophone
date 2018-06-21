@@ -1,3 +1,4 @@
+tic;
 dimension = 3;
 answer = inputdlg('Enter space-separated intial point:',...
              'Sample', [1 50])
@@ -88,3 +89,4 @@ elseif dimension == 3
         disp('invalid input')
     end
 end
+toc;

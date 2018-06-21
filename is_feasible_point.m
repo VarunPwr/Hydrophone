@@ -55,12 +55,26 @@ if sz == 2
     else
          f = 1;
     end
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 elseif sz ==3
-    valc = (x(1)-50).^2 + (x(2)-70).^2 + (x(3)-70).^2 - 1200 ;
-    if valc <= 0
-        f =0;
-    else
-        f = 1;
+    f = 1;
+    obstacle = [];
+    % obstacle 2
+%     obstacle_2 = [];
+%     obstacle_2 = horzcat(obstacle_2, x(1) + x(2) - 20 > 0);
+%     obstacle_2 = horzcat(obstacle_2, x(1) + x(2)  + x(3)- 40 < 0);
+%     obstacle_2 = horzcat(obstacle_2, x(3) > 0);
+%     obstacle_2 = horzcat(obstacle_2, 1);
+    obstacler = [  x(1) + x(2) - 20 > 0, x(1) + x(2)  + x(3)- 40 < 0, x(3) > 0, 1];
+    obstacle = vertcat(obstacle, obstacler);
+%     % obstacle 3
+    obstacler = [ x(1) + 2 * x(2) - 250 > 0, x(1) + 2 * x(2) - 275 < 0, x(3) > 75, x(3) < 100];
+    obstacle = vertcat(obstacle, obstacler);
+    obstacler = [];
+    %%%%%%%%%%%%%%% lets begin
+    obstacle = obstacle * [1 ;1 ;1 ;1];
+    if sum(obstacle == 4 ) > 0
+        f = 0;
     end
 else
     disp('Not enough input arguments');
